@@ -1,10 +1,15 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View,Dimensions } from 'react-native'
 import React from 'react'
+import Header from './Header';
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
-const Home = () => {
+const Home = ({navigation}) => {
   return (
-    <View ></View>
+    <>
+        <Header/>
+    </>
   )
 }
 
