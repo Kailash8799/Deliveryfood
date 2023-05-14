@@ -1,15 +1,19 @@
 import { View, Text, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import CategoryCard from './CategoryCard'
+import client,{urlFor} from '../sanity'
 
-const Category = () => {
-  const [category, setcategory] = useState([{name:"Offers",image:"https://links.papareact.com/gn7"},{name:"Offers",image:"https://links.papareact.com/gn7"},{name:"Offers",image:"https://links.papareact.com/gn7"},
-  {name:"Offers",image:"https://links.papareact.com/gn7"},
-  {name:"Offers",image:"https://links.papareact.com/gn7"},
-  {name:"Offers",image:"https://links.papareact.com/gn7"},
-  {name:"Offers",image:"https://links.papareact.com/gn7"},
-  {name:"Offers",image:"https://links.papareact.com/gn7"}, 
-])
+const Category = ({navigation}) => {
+  const [category, setcategory] = useState([{_id:"234sd4sxz4fd",name:"Offers",image:"https://links.papareact.com/gn7"}])
+
+  useEffect(() => {
+    client.fetch(`*[_type == "category"] {
+      name,_id,image
+    }`).then((data)=>{
+      setcategory(data)
+    }).catch((error)=>{console.log(error);})
+  }, [])
+  
   return (
     <View>
       <ScrollView 
@@ -20,8 +24,13 @@ const Category = () => {
         paddingTop:5,
       }}
       >
-        {Object.keys(category).map((item)=>{
-            return <CategoryCard key={item} image={category[item].image} cat_name={category[item].name}/>
+        {Object.keys(category)?.map((item)=>{
+            return <CategoryCard 
+                      navigation={navigation} 
+                      key={item} 
+                      id={category[item]._id}
+                      image={category[item]?.image?.asset?._ref ? urlFor(category[item]?.image?.asset?._ref).url() : "https://links.papareact.com/gn7"} 
+                      cat_name={category[item].name}/>
     })}
       </ScrollView>
     </View>

@@ -1,12 +1,20 @@
-import { View, Text, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity, SafeAreaView } from "react-native";
+import React from "react";
+import Top from "./Top";
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   return (
-    <View>
-    <TouchableOpacity onPress={()=>{navigation.navigate("Home")}}><Text className="p-4 bg-gray-400 ">Login</Text></TouchableOpacity>  
-    </View>
-  )
-}
+    <SafeAreaView>
+      <Top/>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("Home");
+        }}
+      >
+        <Text className="p-4 bg-gray-400 ">Login Button</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
+  );
+};
 
-export default Login
+export default Login;

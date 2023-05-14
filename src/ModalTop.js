@@ -12,7 +12,6 @@ const ModalTop = ({modalopen,modalopenset,navigation}) => {
     style={{borderRadius:3}}
     onRequestClose={modalopenset}
     animationType='slide'
-    
     >
     <Animated.View>
         <TouchableOpacity style={{
