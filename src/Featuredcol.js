@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 import React, { useEffect, useState } from "react";
 import Features from "./Features";
 import client from "../sanity";
@@ -28,6 +28,7 @@ const Featuredcol = ({ navigation }) => {
   }, []);
   return (
     <View>
+    { featuredall.length != 0 ?<View>
       {featuredall?.map((category) => {
         return (
           <Features
@@ -39,6 +40,10 @@ const Featuredcol = ({ navigation }) => {
           />
         );
       })}
+      </View>:
+      <View className="items-center justify-center h-screen -top-32">
+      <ActivityIndicator size="large" color="#00ff00" />
+    </View>}
     </View>
   );
 };

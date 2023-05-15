@@ -1,5 +1,5 @@
-import { ScrollView } from 'react-native'
-import React from 'react'
+import { Alert, BackHandler, ScrollView } from 'react-native'
+import React, { useEffect } from 'react'
 import Header from './Header';
 import Category from './Category';
 import Featuredcol from './Featuredcol';
@@ -7,6 +7,19 @@ import Top from './Top';
 
 
 const Home = ({navigation}) => {
+
+  useEffect(() => {
+    const backAction = () => {
+      BackHandler.exitApp()
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove();
+  }, []);
   return (
     <>
         <Top/>

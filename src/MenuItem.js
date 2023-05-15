@@ -1,11 +1,24 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeToCart, selectBasjetitem, selectBasjetitemwithid } from "../features/basketSlice";
+
 
 const MenuItem = ({ image_url, dish_price, dish_desc, dish_name, id }) => {
   const [opentemadd, setopentemadd] = useState(false);
+  const dispatch = useDispatch();
+  const item = useSelector(state=>selectBasjetitemwithid(state,id))
+  const addToCartItem = ()=>{
+    dispatch(addToCart({id,dish_name,dish_price,dish_desc,image_url}))
+  }
+  const removeToCartItem = ()=>{
+    if(item.length == 0)return;
+   dispatch(removeToCart({id}))
+  }
+
   return (
-    <View className="px-2 py-1">
+    <View className="px-2 py-1" style={{borderTopWidth:0.2,borderColor:"gray"}}>
       <TouchableOpacity
         onPress={() => {
           setopentemadd(!opentemadd);
@@ -23,12 +36,12 @@ const MenuItem = ({ image_url, dish_price, dish_desc, dish_name, id }) => {
         </View>
       </TouchableOpacity>
       {opentemadd && (
-        <View className="flex-row items-center space-x-4 transition-transform delay-75">
-          <TouchableOpacity>
-            <AntDesign name="minuscircle" size={24} color="#00CCBB" />
+        <View className="flex-row items-center my-2 space-x-4 transition-transform delay-75">
+          <TouchableOpacity disabled={!item.length} onPress={removeToCartItem}>
+            <AntDesign name="minuscircle" size={24} color={`${item.length == 0 ? "gray":"#00CCBB"}`} />
           </TouchableOpacity>
-          <Text>1</Text>
-          <TouchableOpacity>
+          <Text>{item.length}</Text>
+          <TouchableOpacity onPress={addToCartItem}>
             <AntDesign name="pluscircle" size={24} color="#00CCBB" />
           </TouchableOpacity>
         </View>

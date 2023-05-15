@@ -9,7 +9,7 @@ const ModalTop = ({modalopen,modalopenset,navigation}) => {
     <Modal 
     visible={modalopen} 
     transparent={true} 
-    style={{borderRadius:3}}
+    style={{borderRadius:3,height:windowHeight}}
     onRequestClose={modalopenset}
     animationType='slide'
     >

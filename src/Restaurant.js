@@ -18,6 +18,10 @@ import {
   Entypo,
 } from "@expo/vector-icons";
 import MenuItem from "./MenuItem";
+import Basket from "./Basket";
+import { selectBasjetitem } from "../features/basketSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setRestaurant } from "../features/restaurantSlice";
 
 const windowWidth = Dimensions.get("window").width;
 const windowHeight = Dimensions.get("window").height;
@@ -26,6 +30,8 @@ const Restaurant = ({ navigation, route }) => {
   const { id } = route.params;
   const [restaurantsdetails, setrestaurantsdetails] = useState();
   const [openmodal, setopenmodal] = useState(false);
+  const item = useSelector(selectBasjetitem);
+  const dispatch = useDispatch()
   const modalopensetfun = () => {
     setopenmodal(!openmodal);
   };
@@ -42,14 +48,27 @@ const Restaurant = ({ navigation, route }) => {
       )
       .then((data) => {
         setrestaurantsdetails(data[0]);
+        dispatch(setRestaurant({
+          id:id,
+          title:data[0]?.name,
+          rating:data[0]?.rating,
+          address:data[0]?.address,
+          short_desc:data[0]?.desc,
+          dishes:data[0]?.dishes,
+          }))
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
+  useEffect(() => {
+    
+  }, [])
+  
+
   return (
-    <View>
+    <View className="min-h-screen">
       <Modal
         visible={openmodal}
         transparent={true}
@@ -80,8 +99,11 @@ const Restaurant = ({ navigation, route }) => {
         </View>
         </TouchableOpacity>
       </Modal>
-      {restaurantsdetails ? (
-        <ScrollView>
+      {restaurantsdetails ?
+       (<View className="min-h-screen">
+       {item.length != 0 && <Basket resname={restaurantsdetails?.name} img={restaurantsdetails?.image?.asset?._ref
+                  ? urlFor(restaurantsdetails?.image?.asset?._ref).url()
+                  : "https://links.papareact.com/gn7"} navigation={navigation}/> }
           <TouchableOpacity
             activeOpacity={0.6}
             className="absolute z-50 left-5 top-11"
@@ -91,6 +113,7 @@ const Restaurant = ({ navigation, route }) => {
           >
             <FontAwesome5 name="arrow-circle-left" size={28} color="white" />
           </TouchableOpacity>
+        <ScrollView>
           <View>
             <Image
               source={{
@@ -142,7 +165,7 @@ const Restaurant = ({ navigation, route }) => {
             <View className="px-3 py-2 bg-gray-200">
               <Text className="text-2xl font-bold text-black">Menu</Text>
             </View>
-            <View>
+            <View className="mb-24">
                 {Object.keys(restaurantsdetails?.dishes).map((item)=>{
                 return <MenuItem 
                 key={item}
@@ -156,7 +179,7 @@ const Restaurant = ({ navigation, route }) => {
             </View>
           </View>
         </ScrollView>
-      ) : (
+     </View> ) : (
         <View className="items-center justify-center h-screen">
           <ActivityIndicator size="large" color="#00ff00" />
         </View>
