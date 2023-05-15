@@ -55,6 +55,8 @@ const Restaurant = ({ navigation, route }) => {
           address:data[0]?.address,
           short_desc:data[0]?.desc,
           dishes:data[0]?.dishes,
+          lat:data[0].lat,
+          long:data[0].long
           }))
       })
       .catch((error) => {

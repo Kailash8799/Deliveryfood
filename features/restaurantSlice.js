@@ -8,6 +8,8 @@ const initialState = {
     address:null,
     short_desc:null,
     dishes:null,
+    lat:null,
+    long:null
   }
 }
 
